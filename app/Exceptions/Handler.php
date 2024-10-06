@@ -2,6 +2,8 @@
 
 namespace App\Exceptions;
 
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;
 
@@ -26,5 +28,29 @@ class Handler extends ExceptionHandler
         $this->reportable(function (Throwable $e) {
             //
         });
+    }
+
+    protected function unauthenticated($request, AuthenticationException $exception)
+    {
+        // Mengembalikan respons JSON saat token tidak ada atau tidak valid
+        return response()->json([
+            'status' => false,
+            'errors' => 'Unauthorized'
+        ], 401);
+    }
+
+    public function render($request, Throwable $exception)
+    {
+        if ($exception instanceof ModelNotFoundException) {
+            // Mendapatkan nama model dari exception
+            $modelName = class_basename($exception->getModel());
+
+            return response()->json([
+                'status' => false,
+                'errors' => "$modelName not found",
+            ], 404);
+        }
+
+        return parent::render($request, $exception);
     }
 }

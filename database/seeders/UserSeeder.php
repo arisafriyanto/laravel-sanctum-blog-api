@@ -17,17 +17,20 @@ class UserSeeder extends Seeder
             [
                 'name' => 'Aris Apriyanto',
                 'email' => 'arisapriyanto.new@gmail.com',
-                'password' => bcrypt('secret-password')
+                'password' => bcrypt('secret-password'),
+                'email_verified_at' => now()
             ],
             [
                 'name' => 'Jasmine',
                 'email' => 'jasmine@gmail.com',
-                'password' => bcrypt('secret-password')
+                'password' => bcrypt('secret-password'),
+                'email_verified_at' => now()
             ],
             [
                 'name' => 'Runi',
                 'email' => 'runi@gmail.com',
-                'password' => bcrypt('secret-password')
+                'password' => bcrypt('secret-password'),
+                'email_verified_at' => now()
             ]
         ]);
 

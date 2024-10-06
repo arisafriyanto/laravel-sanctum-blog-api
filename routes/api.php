@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\Api\Auth\{LoginController, LogoutController, RegisterController};
+use App\Http\Controllers\Api\Auth\{LoginController, LogoutController, PasswordController, RegisterController};
 use App\Http\Controllers\Api\{CategoryController, PostController, UserController};
 use App\Http\Controllers\Api\BookmarkController;
 use Illuminate\Support\Facades\Route;
@@ -10,6 +10,16 @@ Route::post('/register', [RegisterController::class, 'register'])
     ->name('register');
 Route::post('/login', [LoginController::class, 'login'])
     ->name('login');
+
+
+Route::post('/password/email', [PasswordController::class, 'sendResetLinkEmail'])
+    ->name('password.email');
+Route::get('/password/reset', [PasswordController::class, 'getResetLink'])
+    ->name('password.reset.get');
+Route::post('/password/reset', [PasswordController::class, 'reset'])
+    ->middleware('signed')
+    ->name('password.reset');
+
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', LogoutController::class)
